@@ -1,6 +1,6 @@
-import java.net.*;
-import java.io.*;
 import tcpclient.TCPClient;
+
+import java.io.IOException;
 
 public class TCPAsk {
     /*
