@@ -4,7 +4,7 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
 public class MyRunnable implements Runnable {
-    
+
     public MyRunnable(Socket socket){
         this.socket = socket;
     }
