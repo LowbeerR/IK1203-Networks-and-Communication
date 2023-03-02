@@ -4,15 +4,7 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
 public class MyRunnable implements Runnable {
-    //private int serverport = 0;
-    private boolean shutdown = false;
-    private Integer timeout = null;
-    private Integer limit = null;
-    private String hostname = null;
-    private Socket socket = null;
-    private int port = 0;
-    private byte[] userInputBytes = new byte[0];
-
+    
     public MyRunnable(Socket socket){
         this.socket = socket;
     }
@@ -20,7 +12,14 @@ public class MyRunnable implements Runnable {
     @Override
     public void run() {
 
+        boolean shutdown = false;
+        Integer timeout = null;
+        Integer limit = null;
+        String hostname = null;
+        int port = 0;
+        byte[] userInputBytes = new byte[0];
         byte[] fromClient = new byte[2048];
+
         int index = 0;
         try {
             socket.getInputStream().read(fromClient);
@@ -36,12 +35,13 @@ public class MyRunnable implements Runnable {
 
             String[] url = fullURL.split(" ");
 
-            if (!url[1].contains("/ask?hostname=") || !url[2].contains("HTTP/1.1") || !url[0].contains("GET")) {
-                String ret = "HTTP/1.1 400 Bad Request\r\n";
+            if(!url[1].contains("/ask?hostname=") || !url[2].contains("HTTP/1.1") || !url[0].contains("GET")){
+                String ret = "HTTP/1.1 400 Bad Request\r\n\r\n";
                 socket.getOutputStream().write(ret.getBytes(StandardCharsets.UTF_8));
                 socket.close();
                 // throw new Exception("400 Bad Request");
-            } else {
+            }
+            else {
                 String[] url2 = url[1].split(new String("/ask?"));
                 if (url2[1].contains("&")) {
                     String[] parse = url2[1].split("&");
@@ -67,25 +67,26 @@ public class MyRunnable implements Runnable {
                             case "string":
                                 userInputBytes = Values[1].getBytes(StandardCharsets.UTF_8);
                                 break;
+                            default: break;
                         }
                     }
                 }
 
                 if (hostname == null || port == 0) {
-                    String ret = "HTTP/1.1 400 Bad Request\r\n";
+                    String ret = "HTTP/1.1 400 Bad Request\r\n\r\n";
                     socket.getOutputStream().write(ret.getBytes(StandardCharsets.UTF_8));
                     socket.close();
-                    throw new Exception("400 Bad Request");
+                    // throw new Exception("400 Bad Request");
                 }
 
 
                 TCPClient tcpClient = new TCPClient(shutdown, timeout, limit);
                 byte[] serverBytes = tcpClient.askServer(hostname, port, userInputBytes);
                 if (serverBytes.length == 0) {
-                    String ret = "HTTP/1.1 404 Not Found\r\n";
+                    String ret = "HTTP/1.1 404 Not Found\r\n\r\n";
                     socket.getOutputStream().write(ret.getBytes(StandardCharsets.UTF_8));
                     socket.close();
-                    throw new Exception("404 Not Found");
+                    // throw new Exception("404 Not Found");
                 } else {
                     String ret = "HTTP/1.1 200 OK\r\n\r\n";
                     socket.getOutputStream().write(ret.getBytes(StandardCharsets.UTF_8));
@@ -95,8 +96,8 @@ public class MyRunnable implements Runnable {
 
 
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        }  catch(Exception e){
+            //  e.printStackTrace();
         }
     }
 }
