@@ -14,7 +14,7 @@ public class HTTPAsk {
     public static void main(String[] args) throws IOException {
         serverport = Integer.parseInt(args[0]);
         ServerSocket welcomeSocket = new ServerSocket(serverport);
-       // System.out.println(welcomeSocket.getLocalPort());
+        // System.out.println(welcomeSocket.getLocalPort());
 
         while (true) {
 
@@ -39,7 +39,7 @@ public class HTTPAsk {
                     String ret = "HTTP/1.1 400 Bad Request\r\n";
                     socket.getOutputStream().write(ret.getBytes(StandardCharsets.UTF_8));
                     socket.close();
-                   // throw new Exception("400 Bad Request");
+                    // throw new Exception("400 Bad Request");
                 }
                 else {
                     String[] url2 = url[1].split(new String("/ask?"));
@@ -101,6 +101,3 @@ public class HTTPAsk {
         }
     }
 }
-
-
-
