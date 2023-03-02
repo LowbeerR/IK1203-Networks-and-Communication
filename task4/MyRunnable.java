@@ -4,6 +4,14 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
 public class MyRunnable implements Runnable {
+    //private int serverport = 0;
+    private boolean shutdown = false;
+    private Integer timeout = null;
+    private Integer limit = null;
+    private String hostname = null;
+    private Socket socket = null;
+    private int port = 0;
+    private byte[] userInputBytes = new byte[0];
 
     public MyRunnable(Socket socket){
         this.socket = socket;
@@ -12,12 +20,6 @@ public class MyRunnable implements Runnable {
     @Override
     public void run() {
 
-        boolean shutdown = false;
-        Integer timeout = null;
-        Integer limit = null;
-        String hostname = null;
-        int port = 0;
-        byte[] userInputBytes = new byte[0];
         byte[] fromClient = new byte[2048];
 
         int index = 0;
