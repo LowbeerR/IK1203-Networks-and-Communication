@@ -6,7 +6,7 @@ public class ConcHTTPAsk {
         try {
             int serverport = Integer.parseInt(args[0]);
             ServerSocket welcomeSocket = new ServerSocket(serverport);
-            System.out.println(welcomeSocket.getLocalPort());
+          //  System.out.println(welcomeSocket.getLocalPort());
 
             while (true) {
                 Socket socket = welcomeSocket.accept();

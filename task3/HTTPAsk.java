@@ -14,7 +14,7 @@ public class HTTPAsk {
     public static void main(String[] args) throws IOException {
         serverport = Integer.parseInt(args[0]);
         ServerSocket welcomeSocket = new ServerSocket(serverport);
-        System.out.println(welcomeSocket.getLocalPort());
+       // System.out.println(welcomeSocket.getLocalPort());
 
         while (true) {
 
