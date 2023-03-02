@@ -36,7 +36,7 @@ public class HTTPAsk {
                 String[] url = fullURL.split(" ");
 
                 if(!url[1].contains("/ask?hostname=") || !url[2].contains("HTTP/1.1") || !url[0].contains("GET")){
-                    String ret = "HTTP/1.1 400 Bad Request\r\n";
+                    String ret = "HTTP/1.1 400 Bad Request\r\n\r\n";
                     socket.getOutputStream().write(ret.getBytes(StandardCharsets.UTF_8));
                     socket.close();
                     // throw new Exception("400 Bad Request");
@@ -67,25 +67,26 @@ public class HTTPAsk {
                                 case "string":
                                     userInputBytes = Values[1].getBytes(StandardCharsets.UTF_8);
                                     break;
+                                default: break;
                             }
                         }
                     }
 
                     if (hostname == null || port == 0) {
-                        String ret = "HTTP/1.1 400 Bad Request\r\n";
+                        String ret = "HTTP/1.1 400 Bad Request\r\n\r\n";
                         socket.getOutputStream().write(ret.getBytes(StandardCharsets.UTF_8));
                         socket.close();
-                        throw new Exception("400 Bad Request");
+                        // throw new Exception("400 Bad Request");
                     }
 
 
                     TCPClient tcpClient = new TCPClient(shutdown, timeout, limit);
                     byte[] serverBytes = tcpClient.askServer(hostname, port, userInputBytes);
                     if (serverBytes.length == 0) {
-                        String ret = "HTTP/1.1 404 Not Found\r\n";
+                        String ret = "HTTP/1.1 404 Not Found\r\n\r\n";
                         socket.getOutputStream().write(ret.getBytes(StandardCharsets.UTF_8));
                         socket.close();
-                        throw new Exception("404 Not Found");
+                        // throw new Exception("404 Not Found");
                     } else {
                         String ret = "HTTP/1.1 200 OK\r\n\r\n";
                         socket.getOutputStream().write(ret.getBytes(StandardCharsets.UTF_8));
@@ -96,7 +97,7 @@ public class HTTPAsk {
 
                 }
             }  catch(Exception e){
-                e.printStackTrace();
+                //  e.printStackTrace();
             }
         }
     }
