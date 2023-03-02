@@ -3,23 +3,23 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 public class HTTPAsk {
-    static int serverport = 0;
-    static boolean shutdown = false;
-    static Integer timeout = null;
-    static Integer limit = null;
-    static String hostname = null;
-    static int port = 0;
-    static byte[] userInputBytes = new byte[0];
 
     public static void main(String[] args) throws IOException {
-        serverport = Integer.parseInt(args[0]);
+        int serverport = Integer.parseInt(args[0]);
         ServerSocket welcomeSocket = new ServerSocket(serverport);
-        // System.out.println(welcomeSocket.getLocalPort());
+        //System.out.println(welcomeSocket.getLocalPort());
 
         while (true) {
-
             Socket socket = welcomeSocket.accept();
+
+            boolean shutdown = false;
+            Integer timeout = null;
+            Integer limit = null;
+            String hostname = null;
+            int port = 0;
+            byte[] userInputBytes = new byte[0];
             byte[] fromClient = new byte[2048];
+
             int index = 0;
             try {
                 socket.getInputStream().read(fromClient);
