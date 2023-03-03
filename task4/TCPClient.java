@@ -51,7 +51,7 @@ public class TCPClient {
             return buffer.toByteArray();
         }
         catch(IOException ex){
-            System.out.println("error with connection: " + ex);
+           // System.out.println("error with connection: " + ex);
         }
 
 
