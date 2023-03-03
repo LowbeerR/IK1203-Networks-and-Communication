@@ -35,7 +35,13 @@ public class HTTPAsk {
 
                 String[] url = fullURL.split(" ");
 
-                if(!url[1].contains("/ask?hostname=") || !url[2].contains("HTTP/1.1") || !url[0].contains("GET")){
+                if(!url[1].contains("/ask?"))
+                {
+                    String ret = "HTTP/1.1 404 Not Found\r\n\r\n";
+                    socket.getOutputStream().write(ret.getBytes(StandardCharsets.UTF_8));
+                    socket.close();
+                }
+                if(!url[2].contains("HTTP/1.1") || !url[0].contains("GET")){
                     String ret = "HTTP/1.1 400 Bad Request\r\n\r\n";
                     socket.getOutputStream().write(ret.getBytes(StandardCharsets.UTF_8));
                     socket.close();
